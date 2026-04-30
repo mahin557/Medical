@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(npm install *)",
+      "Bash(pip install *)",
+      "Bash(npx tsc *)",
+      "Bash(python -c \"from models import PatientData, DiagnosisRequest; from diagnosis_engine import build_prompt; print\\('Backend OK'\\)\")",
+      "Bash(npm run *)",
+      "Bash(python -c \"from diagnosis_engine import build_prompt; from models import PatientData; print\\('OK'\\)\")",
+      "Bash(npx expo-doctor *)",
+      "Bash(npx expo *)",
+      "Bash(node -e ' *)",
+      "Bash(node -e \"console.log\\(require\\('./node_modules/expo/package.json'\\).version\\)\")",
+      "Bash(netstat -ano)",
+      "Bash(findstr \"8081 8082 8083 8084 8085\")",
+      "Bash(taskkill /PID 12908 /F)",
+      "Bash(taskkill /PID 33936 /F)",
+      "PowerShell(Stop-Process *)"
+    ]
+  }
+}
