@@ -63,9 +63,14 @@ export default function ExamScreen() {
   const [loadingMsg, setLoadingMsg] = useState('')
 
   const MSGS = [
-    'Analyzing symptoms…', 'Applying clinical reasoning…',
-    'Building differential…', 'Evaluating red flags…',
-    'Generating SOAP note…', 'Almost done…',
+    'Checking drug interactions (RxNorm)…',
+    'Analyzing symptoms…',
+    'Applying Bayesian clinical reasoning…',
+    'Building differential diagnosis…',
+    'Evaluating must-not-miss conditions…',
+    'Calculating clinical scores…',
+    'Generating SOAP note…',
+    'Almost done…',
   ]
 
   function setVital<K extends keyof Vitals>(key: K, val: Vitals[K]) {

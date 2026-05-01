@@ -79,15 +79,17 @@ export interface PatientData {
   additional_context: string
 }
 
-// Diagnosis output types
 export interface DiagnosisEntry {
   rank: number
   name: string
   icd10_code?: string
   probability: 'High' | 'Moderate' | 'Low'
   confidence_percent?: number
+  pathophysiology?: string
   supporting_evidence: string[]
   against_evidence: string[]
+  key_differentiators?: string[]
+  clinical_score?: string
   must_rule_out: boolean
   emergency: boolean
 }
@@ -100,9 +102,14 @@ export interface Workup {
   referrals: string[]
 }
 
+export type RiskLevel = 'CRITICAL' | 'HIGH' | 'MODERATE' | 'LOW'
+
 export interface DiagnosisResult {
+  reasoning_chain?: string
   red_flags: string[]
   emergency_level: 'EMERGENCY' | 'URGENT' | 'ROUTINE'
+  risk_stratification?: RiskLevel
+  disposition?: string
   differential_diagnosis: DiagnosisEntry[]
   most_likely_diagnosis: string
   workup: Workup
@@ -110,5 +117,6 @@ export interface DiagnosisResult {
   soap_note: string
   clinical_pearls: string[]
   drug_interactions: string[]
+  verified_drug_interactions?: string[]
   disclaimer: string
 }
