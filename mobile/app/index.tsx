@@ -85,12 +85,12 @@ export default function PatientScreen() {
 
         {/* Step indicator */}
         <View style={s.steps}>
-          {['Patient', 'Symptoms', 'Exam', 'Diagnosis'].map((step, i) => (
+          {['Patient', 'Exam', 'Diagnosis'].map((step, i) => (
             <React.Fragment key={step}>
               <View style={[s.stepDot, i === 0 && s.stepDotActive]}>
                 <Text style={[s.stepNum, i === 0 && s.stepNumActive]}>{i + 1}</Text>
               </View>
-              {i < 3 && <View style={[s.stepLine, i < 0 && s.stepLineActive]} />}
+              {i < 2 && <View style={[s.stepLine, i < 0 && s.stepLineActive]} />}
             </React.Fragment>
           ))}
         </View>
@@ -197,10 +197,10 @@ export default function PatientScreen() {
         {/* Next */}
         <TouchableOpacity
           style={[s.nextBtn, !canContinue && s.nextBtnDisabled]}
-          onPress={() => router.push('/symptoms')}
+          onPress={() => router.push('/exam')}
           disabled={!canContinue}
         >
-          <Text style={s.nextTxt}>Continue to Symptoms</Text>
+          <Text style={s.nextTxt}>Continue to Exam</Text>
           <Ionicons name="arrow-forward" size={18} color="#fff" />
         </TouchableOpacity>
       </ScrollView>

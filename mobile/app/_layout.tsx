@@ -16,10 +16,9 @@ export default function RootLayout() {
           contentStyle: { backgroundColor: theme.colors.background },
         }}
       >
-        <Stack.Screen name="index"    options={{ title: 'Patient & History', headerLeft: () => null }} />
-        <Stack.Screen name="symptoms" options={{ title: 'Symptoms' }} />
-        <Stack.Screen name="exam"     options={{ title: 'Exam & Labs' }} />
-        <Stack.Screen name="results"  options={{ title: 'Diagnosis', headerLeft: () => null }} />
+        <Stack.Screen name="index"   options={{ title: 'Patient & History', headerLeft: () => null }} />
+        <Stack.Screen name="exam"    options={{ title: 'Exam & Labs' }} />
+        <Stack.Screen name="results" options={{ title: 'Diagnosis', headerLeft: () => null }} />
       </Stack>
     </PatientProvider>
   )

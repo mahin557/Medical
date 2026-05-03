@@ -61,6 +61,7 @@ export default function ExamScreen() {
   const { patient, setPatient, setResult } = usePatient()
   const [loading, setLoading] = useState(false)
   const [loadingMsg, setLoadingMsg] = useState('')
+  const [vitalsExpanded, setVitalsExpanded] = useState(false)
 
   const MSGS = [
     'Checking drug interactions (RxNorm)…',
@@ -134,52 +135,69 @@ export default function ExamScreen() {
         keyboardShouldPersistTaps="handled"
       >
         {/* Vitals */}
-        <SectionCard title="Vital Signs" icon="pulse">
-          <View style={s.vitalsGrid}>
-            <VitalField label="Temp (°F)" value={v.temperature_f ?? ''} unit="°F" placeholder="98.6" onChange={val => setVital('temperature_f', val)} abnormal={abnormal.temp} />
-            <VitalField label="Heart Rate" value={v.heart_rate ?? ''} unit="bpm" placeholder="72" onChange={val => setVital('heart_rate', val)} abnormal={abnormal.hr} />
-            <VitalField label="Resp Rate" value={v.respiratory_rate ?? ''} unit="/min" placeholder="16" onChange={val => setVital('respiratory_rate', val)} abnormal={abnormal.rr} />
-            <VitalField label="SpO₂" value={v.o2_saturation ?? ''} unit="%" placeholder="98" onChange={val => setVital('o2_saturation', val)} abnormal={abnormal.o2} />
-            <VitalField label="Pain" value={v.pain_scale ?? ''} unit="/10" placeholder="0" onChange={val => setVital('pain_scale', val)} />
-          </View>
-
-          {/* BP row */}
-          <View style={s.bpRow}>
-            <Text style={s.label}>Blood Pressure</Text>
-            <View style={s.bpInputs}>
-              <TextInput
-                style={s.bpInput}
-                keyboardType="number-pad"
-                placeholder="120"
-                placeholderTextColor={theme.colors.textMuted}
-                value={v.bp_systolic === '' ? '' : String(v.bp_systolic ?? '')}
-                onChangeText={val => setVital('bp_systolic', val === '' ? '' : Number(val))}
-              />
-              <Text style={s.bpSlash}>/</Text>
-              <TextInput
-                style={s.bpInput}
-                keyboardType="number-pad"
-                placeholder="80"
-                placeholderTextColor={theme.colors.textMuted}
-                value={v.bp_diastolic === '' ? '' : String(v.bp_diastolic ?? '')}
-                onChangeText={val => setVital('bp_diastolic', val === '' ? '' : Number(val))}
-              />
-              <Text style={s.bpUnit}>mmHg</Text>
-            </View>
-          </View>
-
-          <View style={s.row2}>
-            <VitalField label="Weight (kg)" value={v.weight_kg ?? ''} unit="kg" placeholder="70" onChange={val => setVital('weight_kg', val)} />
-            <VitalField label="GCS" value={v.gcs ?? ''} unit="/15" placeholder="15" onChange={val => setVital('gcs', val)} />
-          </View>
-
-          {Object.values(abnormal).some(Boolean) && (
+        <View style={s.card}>
+          <TouchableOpacity style={s.cardHeader} onPress={() => setVitalsExpanded(e => !e)} activeOpacity={0.7}>
+            <Ionicons name="pulse" size={16} color={theme.colors.primary} />
+            <Text style={[s.sectionTitle, { flex: 1 }]}>Vital Signs</Text>
+            {Object.values(abnormal).some(Boolean) && (
+              <Ionicons name="warning" size={14} color={theme.colors.warning} />
+            )}
+            <Ionicons name={vitalsExpanded ? 'chevron-up' : 'chevron-down'} size={14} color={theme.colors.textMuted} />
+          </TouchableOpacity>
+          {!vitalsExpanded && Object.values(abnormal).some(Boolean) && (
             <View style={s.abnormalBanner}>
               <Ionicons name="warning" size={14} color={theme.colors.warning} />
-              <Text style={s.abnormalTxt}>Abnormal vitals detected — flagged in analysis</Text>
+              <Text style={s.abnormalTxt}>Abnormal vitals detected — tap to review</Text>
             </View>
           )}
-        </SectionCard>
+          {vitalsExpanded && (
+            <>
+              <View style={s.vitalsGrid}>
+                <VitalField label="Temp (°F)" value={v.temperature_f ?? ''} unit="°F" placeholder="98.6" onChange={val => setVital('temperature_f', val)} abnormal={abnormal.temp} />
+                <VitalField label="Heart Rate" value={v.heart_rate ?? ''} unit="bpm" placeholder="72" onChange={val => setVital('heart_rate', val)} abnormal={abnormal.hr} />
+                <VitalField label="Resp Rate" value={v.respiratory_rate ?? ''} unit="/min" placeholder="16" onChange={val => setVital('respiratory_rate', val)} abnormal={abnormal.rr} />
+                <VitalField label="SpO₂" value={v.o2_saturation ?? ''} unit="%" placeholder="98" onChange={val => setVital('o2_saturation', val)} abnormal={abnormal.o2} />
+                <VitalField label="Pain" value={v.pain_scale ?? ''} unit="/10" placeholder="0" onChange={val => setVital('pain_scale', val)} />
+              </View>
+
+              <View style={s.bpRow}>
+                <Text style={s.label}>Blood Pressure</Text>
+                <View style={s.bpInputs}>
+                  <TextInput
+                    style={s.bpInput}
+                    keyboardType="number-pad"
+                    placeholder="120"
+                    placeholderTextColor={theme.colors.textMuted}
+                    value={v.bp_systolic === '' ? '' : String(v.bp_systolic ?? '')}
+                    onChangeText={val => setVital('bp_systolic', val === '' ? '' : Number(val))}
+                  />
+                  <Text style={s.bpSlash}>/</Text>
+                  <TextInput
+                    style={s.bpInput}
+                    keyboardType="number-pad"
+                    placeholder="80"
+                    placeholderTextColor={theme.colors.textMuted}
+                    value={v.bp_diastolic === '' ? '' : String(v.bp_diastolic ?? '')}
+                    onChangeText={val => setVital('bp_diastolic', val === '' ? '' : Number(val))}
+                  />
+                  <Text style={s.bpUnit}>mmHg</Text>
+                </View>
+              </View>
+
+              <View style={s.row2}>
+                <VitalField label="Weight (kg)" value={v.weight_kg ?? ''} unit="kg" placeholder="70" onChange={val => setVital('weight_kg', val)} />
+                <VitalField label="GCS" value={v.gcs ?? ''} unit="/15" placeholder="15" onChange={val => setVital('gcs', val)} />
+              </View>
+
+              {Object.values(abnormal).some(Boolean) && (
+                <View style={s.abnormalBanner}>
+                  <Ionicons name="warning" size={14} color={theme.colors.warning} />
+                  <Text style={s.abnormalTxt}>Abnormal vitals detected — flagged in analysis</Text>
+                </View>
+              )}
+            </>
+          )}
+        </View>
 
         {/* Physical Exam */}
         <SectionCard title="Physical Examination" icon="stethoscope">
@@ -204,9 +222,9 @@ export default function ExamScreen() {
           <View style={s.examField}>
             <Text style={s.label}>Laboratory Results</Text>
             <TextInput
-              style={[s.input, s.monoInput, { height: 100 }]}
+              style={[s.input, s.monoInput, { minHeight: 120 }]}
               multiline
-              placeholder={'WBC 14.2 (H), Hgb 13.1\nTroponin: 2.4 (H)\nBMP: Na 138, K 4.1, Cr 1.0'}
+              placeholder={'WBC 14.2 (H), Hgb 13.1\nTroponin: 2.4 (H)\nBMP: Na 138, K 4.1, Cr 1.0\nLFT: ALT 45, AST 38\nUrine: No WBC, no RBC'}
               placeholderTextColor={theme.colors.textMuted}
               value={patient.lab_results}
               onChangeText={v => setPatient(p => ({ ...p, lab_results: v }))}
@@ -216,9 +234,9 @@ export default function ExamScreen() {
           <View style={s.examField}>
             <Text style={s.label}>Imaging Results</Text>
             <TextInput
-              style={[s.input, { height: 80 }]}
+              style={[s.input, { minHeight: 160 }]}
               multiline
-              placeholder={'CXR: No acute process\nECG: ST elevation leads II, III, aVF'}
+              placeholder={'USG whole abdomen: Liver normal size, echogenicity normal. Gallbladder: no stones. CBD: 4mm. Kidneys: normal. No free fluid.\n\nCXR: No consolidation, no cardiomegaly.\n\nECG: NSR, no ST changes.'}
               placeholderTextColor={theme.colors.textMuted}
               value={patient.imaging_results}
               onChangeText={v => setPatient(p => ({ ...p, imaging_results: v }))}
@@ -228,7 +246,7 @@ export default function ExamScreen() {
           <View style={s.examField}>
             <Text style={s.label}>Additional Context</Text>
             <TextInput
-              style={[s.input, { height: 60 }]}
+              style={[s.input, { minHeight: 80 }]}
               multiline
               placeholder="Travel, exposures, immunocompromised, pregnancy..."
               placeholderTextColor={theme.colors.textMuted}

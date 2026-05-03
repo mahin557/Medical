@@ -7,23 +7,36 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "backgroundColor": "#2563EB"
+      "image": "./assets/splash.png",
+      "resizeMode": "contain",
+      "backgroundColor": "#0f172a"
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.meddx.app"
+      "bundleIdentifier": "com.meddx.app",
+      "buildNumber": "1"
     },
     "android": {
       "adaptiveIcon": {
-        "backgroundColor": "#2563EB"
+        "foregroundImage": "./assets/adaptive-icon.png",
+        "backgroundColor": "#0f172a"
       },
-      "package": "com.meddx.app"
+      "package": "com.meddx.app",
+      "versionCode": 1,
+      "permissions": []
     },
     "scheme": "meddx",
     "plugins": [
       "expo-router",
       "expo-font",
       "expo-asset"
-    ]
+    ],
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "24a9a6e5-a823-4a9d-b578-8d72e6b84e04"
+      }
+    },
+    "owner": "mahin557"
   }
 }

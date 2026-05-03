@@ -65,6 +65,9 @@ DRUG INTERACTIONS AND DRUG-INDUCED CONDITIONS:
 - Fluoroquinolones + QT-prolonging drugs → torsades de pointes
 - Warfarin + antibiotics/azoles → supratherapeutic INR → bleeding
 
+COMPLETED INVESTIGATIONS — NEVER RE-ORDER:
+If the patient data includes "LABORATORY RESULTS" or "IMAGING RESULTS", those studies are ALREADY COMPLETED. Do NOT list them again in workup.labs or workup.imaging. Use those results to reason toward a diagnosis. Recommending an already-completed test is a clinical error.
+
 DIAGNOSIS QUALITY REQUIREMENTS:
 - Generate exactly 10–15 differential diagnoses
 - Ranks 1–3: highest probability by Bayesian reasoning for this specific patient
@@ -157,8 +160,8 @@ CHIEF COMPLAINT: "${patient.chief_complaint}"`)
   if (pe.psychiatric)     examParts.push(`Psych: ${pe.psychiatric}`)
   if (examParts.length)   parts.push(`\nPHYSICAL EXAM:\n${examParts.join('\n')}`)
 
-  if (patient.lab_results)     parts.push(`\nLABORATORY RESULTS:\n${patient.lab_results}`)
-  if (patient.imaging_results) parts.push(`IMAGING RESULTS:\n${patient.imaging_results}`)
+  if (patient.lab_results)     parts.push(`\nCOMPLETED LABORATORY RESULTS (already done — do NOT re-order these):\n${patient.lab_results}`)
+  if (patient.imaging_results) parts.push(`COMPLETED IMAGING RESULTS (already done — do NOT re-order these):\n${patient.imaging_results}`)
   if (patient.additional_context) parts.push(`ADDITIONAL CONTEXT: ${patient.additional_context}`)
 
   if (verifiedInteractions.length > 0) {
